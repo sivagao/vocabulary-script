@@ -37,7 +37,9 @@ exports.findByWord = function(req, res) {
 
 exports.findAll = function(req, res) {
     db.collection('word', function(err, collection) {
-        collection.find().toArray(function(err, items) {
+        collection.find().sort({
+            count: -1
+        }).toArray(function(err, items) {
             res.send(items);
         });
     });
