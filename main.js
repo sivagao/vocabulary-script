@@ -121,7 +121,11 @@ function postBackend(wordArray) {
         success: function(resp) {
             console.log(resp);
         },
-        data: JSON.stringify(data)
+        data: JSON.stringify({
+            title: document.title,
+            url: location.href,
+            batchWords: data
+        })
     });
     hasPostBackend = true;
 }

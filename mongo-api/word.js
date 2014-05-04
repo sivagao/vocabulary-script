@@ -117,13 +117,53 @@ exports.deleteWord = function(req, res) {
 }
 
 exports.postWordBatch = function(req, res) {
-    var batchWords = req.body;
-    console.log('Reading Batches: ' + JSON.stringify(batchWords));
-    batchWords.forEach(function(val) {
-        postWord(val);
-    });
-    res.send('');
+    var existFn = function(req) {
+        console.log('Has Added Article: ' + req.body.url);
+        res.send('Has Added Article: ' + req.body.url);
+    };
+    var nonExistFn = function(req) {
+        addArticleUrl(req.body.url, req.body.title);
+        console.log('Reading Batches: ' + JSON.stringify(req.body.batchWords));
+        req.body.batchWords.forEach(function(val) {
+            postWord(val);
+        });
+        res.send('');
+    }
+    checkArticleUrlExist(req, existFn, nonExistFn);
 };
+
+function checkArticleUrlExist(req, existFn, nonExistFn) {
+    db.collection('url', function(err, collection) {
+        collection.findOne({
+            'url': req.body.url
+        }, function(err, item) {
+            if (err) return false;
+            if (item) {
+                existFn(req);
+            } else {
+                nonExistFn(req);
+            }
+        });
+    });
+}
+
+function addArticleUrl(url, title) {
+    db.collection('url', function(err, collection) {
+        collection.insert({
+            url: url,
+            title: title
+        }, function(err, result) {
+            if (err) {
+                console.log('Error inserting url: ' + err);
+            } else {
+                console.log('' + result + ' url(s) inserted');
+                console.log('Success: ' + JSON.stringify(result));
+            }
+        });
+    });
+}
+
+
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 // Populate database with sample data -- Only used once: the first time the application is started.
