@@ -4,12 +4,31 @@
 	"description": "RT",
 	"order": [
 		"f24929df-fa0d-6599-33b1-c96560ae1c15",
-		"b109c325-6561-872a-f92e-521d6d7791fc"
+		"b109c325-6561-872a-f92e-521d6d7791fc",
+		"a7b06637-2a98-6818-24f8-e6fe028c0b74"
 	],
 	"folders": [],
 	"timestamp": 1399218081240,
 	"synced": false,
 	"requests": [
+		{
+			"id": "a7b06637-2a98-6818-24f8-e6fe028c0b74",
+			"headers": "User-Agent: Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.146 Safari/537.36\nContent-Type: application/json\nAccept: */*\nAccept-Encoding: gzip,deflate,sdch\nAccept-Language: zh-TW,zh;q=0.8,en-US;q=0.6,en;q=0.4\n",
+			"url": "http://localhost:3000/batch/word",
+			"pathVariables": {},
+			"method": "POST",
+			"data": "[{\"word\": \"batch1\", \"sentences\": [\"senqwte1\",\"sefdante1\"]},{\"word\": \"batch2\", \"sentences\": [\"sefdante12\"]}]",
+			"dataMode": "raw",
+			"name": "postBatchWord",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1399220234750,
+			"version": 2,
+			"responses": [],
+			"tests": "",
+			"collectionId": "6f124979-84d1-5ead-ff95-44dad3dda4ef",
+			"synced": false
+		},
 		{
 			"id": "b109c325-6561-872a-f92e-521d6d7791fc",
 			"headers": "User-Agent: Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.146 Safari/537.36\nContent-Type: application/json\nAccept: */*\nAccept-Encoding: gzip,deflate,sdch\nAccept-Language: zh-TW,zh;q=0.8,en-US;q=0.6,en;q=0.4\n",

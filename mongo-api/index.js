@@ -9,6 +9,7 @@ app.configure(function() {
 });
 
 app.get('/word', word.findAll);
+app.post('/batch/word', word.postWordBatch);
 app.get('/word/:word', word.findByWord);
 app.post('/word/:word', word.postWord);
 app.delete('/word/:word', word.deleteWord);

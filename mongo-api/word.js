@@ -49,13 +49,19 @@ exports.postWord = function(req, res) {
     console.log('Posting word: ' + word);
     console.log(JSON.stringify(wordItem));
 
+    wordItem.word = word;
+    postWord(wordItem);
+    res.send('');
+};
+
+var postWord = function(wordItem) {
     db.collection('word', function(err, collection) {
         collection.findOne({
-            'word': word
+            'word': wordItem.word
         }, function(err, item) {
             if (!item) {
                 var insertItem = {
-                    word: word,
+                    word: wordItem.word,
                     count: 1,
                     sentences: wordItem.sentences
                 };
@@ -63,12 +69,10 @@ exports.postWord = function(req, res) {
                     safe: true
                 }, function(err, result) {
                     if (err) {
-                        res.send({
-                            'error': 'An error has occurred'
-                        });
+                        console.log('Error inserting word: ' + err);
                     } else {
+                        console.log('' + result + ' document(s) inserted');
                         console.log('Success: ' + JSON.stringify(result));
-                        res.send('');
                     }
                 });
             } else {
@@ -81,12 +85,9 @@ exports.postWord = function(req, res) {
                 }, function(err, result) {
                     if (err) {
                         console.log('Error updating word: ' + err);
-                        res.send({
-                            'error': 'An error has occurred'
-                        });
                     } else {
                         console.log('' + result + ' document(s) updated');
-                        res.send('');
+                        console.log('Success: ' + JSON.stringify(item));
                     }
                 });
             }
@@ -116,7 +117,12 @@ exports.deleteWord = function(req, res) {
 }
 
 exports.postWordBatch = function(req, res) {
-
+    var batchWords = req.body;
+    console.log('Reading Batches: ' + JSON.stringify(batchWords));
+    batchWords.forEach(function(val) {
+        postWord(val);
+    });
+    res.send('');
 };
 
 /*--------------------------------------------------------------------------------------------------------------------*/
