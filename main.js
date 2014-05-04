@@ -76,10 +76,13 @@ function activeNewWordTable() {
         });
 
         extractedDict = _.filter(extractedDict, function(i) {
+            // cleanup none item
             if (i) {
                 return i;
             }
         });
+
+        postBackend(extractedDict);
 
         var TrList = "<% _.each(extractedDict, function(i) { %> <tr><td class='word'><%= i.word %></td><td class='sentence'><%= i.sentence %></td></tr> <% }); %>";
 
@@ -96,4 +99,29 @@ function activeNewWordTable() {
     } else {
         $('#newwordTable').hide();
     }
+}
+
+var hasPostBackend = false;
+
+function postBackend(wordArray) {
+    if (hasPostBackend) return;
+    // update wordDict suitable for backend api interface
+    var data = _.map(wordArray, function(item) {
+        var sentences = [];
+        sentences.push(item.sentence);
+        return {
+            word: item.word,
+            sentences: sentences
+        };
+    });
+    $.ajax({
+        url: 'http://localhost:3000/batch/word',
+        type: "POST",
+        contentType: 'application/json',
+        success: function(resp) {
+            console.log(resp);
+        },
+        data: JSON.stringify(data)
+    });
+    hasPostBackend = true;
 }
