@@ -1,0 +1,10 @@
+{
+    "name": "vocabulary-script",
+    "version": "0.0.1",
+    "description": "package for cocos command",
+    "dependencies" : {
+        "cocos2d-html5" : "*"
+    },
+    "repository" : {},
+    "readme" : {}
+}
