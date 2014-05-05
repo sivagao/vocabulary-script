@@ -52,6 +52,7 @@ exports.postWord = function(req, res) {
     console.log(JSON.stringify(wordItem));
 
     wordItem.word = word;
+    wordItem.count = 3; // for single fn to add new word with a weight 3
     postWord(wordItem);
     res.send('');
 };
@@ -62,11 +63,10 @@ var postWord = function(wordItem) {
             'word': wordItem.word
         }, function(err, item) {
             if (!item) {
-                var insertItem = {
-                    word: wordItem.word,
-                    count: 1,
-                    sentences: wordItem.sentences
-                };
+                if (!wordItem.count) {
+                    wordItem.count = 1;
+                }
+                var insertItem = wordItem;
                 collection.insert(insertItem, {
                     safe: true
                 }, function(err, result) {
@@ -78,7 +78,10 @@ var postWord = function(wordItem) {
                     }
                 });
             } else {
-                item.count = item.count + 1;
+                if (!wordItem.count) {
+                    wordItem.count = 1;
+                }
+                item.count = item.count + wordItem.count;
                 item.sentences = item.sentences.concat(wordItem.sentences);
                 collection.update({
                     'word': item.word
